@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { fetchWeatherByCity } from "../api";
 import Navbar from "../Components/Navbar";
-import { Container, Flex, Grid } from "@chakra-ui/react";
+import { Container, Flex, Box, VStack } from "@chakra-ui/react";
 import Alerts from "../Components/Alerts";
 import Forecast from "../Components/Forecast";
 import Location from "../Components/Location";
 import Current from "../Components/Current";
+import Today from "../Components/Today";
 
 const WeatherPage = () => {
     const [city, setCity] = useState("Jersey City");
@@ -28,41 +29,41 @@ const WeatherPage = () => {
     const { location, current, forecast, alerts } = weatherData ?? {};
 
     return (
-        <>
+        <VStack height={"100%"} align="stretch" flex={1}>
             <Navbar
                 city={city}
                 setCity={setCity}
                 setWeatherData={setWeatherData}
+                alerts={alerts}
             />
-            <Container maxW="8xl" py={2} px={10}>
+            <Container
+                maxW="8xl"
+                // py={2} px={10}
+                height="100%"
+            >
                 {weatherData && (
-                    <Flex gap={5}>
-                        <Location location={location} />
-                        <Current current={current} />
-                    </Flex>
+                    <VStack align="stretch" spacing={5}>
+                        <Flex gap={5}>
+                            <VStack align="stretch" w="40%" gap={5}>
+                                <Box>
+                                    <Location location={location} />
+                                </Box>
+                                <Box>
+                                    <Today
+                                        hour={forecast.forecastday[0].hour}
+                                    />
+                                </Box>
+                            </VStack>
 
-                    // <Flex>
-                    //     <Location location={location} />
-                    //     <Current current={current} />
-                    //     <Forecast forecast={forecast} />
-                    //     <Alerts alerts={alerts.alert} />
-                    // </Flex>
-                    // <Grid
-                    //     templateColumns="repeat(auto-fit, minmax(300px, 1fr))"
-                    //     gap={10}
-                    // >
-                    //     <Flex>
-                    //         <Location location={location} />
-                    //         <Current current={current} />
-                    //     </Flex>
-                    //     <Flex>
-                    //         {alerts && <Alerts alerts={alerts.alert} />}
-                    //         {forecast && <Forecast forecast={forecast} />}
-                    //     </Flex>
-                    // </Grid>
+                            <VStack align="stretch" spacing={5}>
+                                <Current current={current} />
+                                {forecast && <Forecast forecast={forecast} />}
+                            </VStack>
+                        </Flex>
+                    </VStack>
                 )}
             </Container>
-        </>
+        </VStack>
     );
 };
 

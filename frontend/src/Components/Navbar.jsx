@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     Box,
     Flex,
@@ -10,21 +10,27 @@ import {
     InputLeftElement,
     InputRightElement,
     CloseButton,
-    Heading,
     Text,
     VStack,
-    useColorModeValue,
-    HStack,
+    Drawer,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    DrawerHeader,
+    DrawerBody,
 } from "@chakra-ui/react";
 import { MoonIcon, SearchIcon, SunIcon } from "@chakra-ui/icons";
 import { MdLocationOn, MdOutlineMyLocation } from "react-icons/md";
 import { fetchCityList } from "../api";
+import { TbReport } from "react-icons/tb";
+import Alerts from "./Alerts";
 
-const Navbar = ({ city, setCity, setWeatherData }) => {
+const Navbar = ({ city, setCity, setWeatherData, alerts }) => {
     const { colorMode, toggleColorMode } = useColorMode();
     const [cityList, setCityList] = useState([]);
     const [cityInput, setCityInput] = useState("");
     const [error, setError] = useState(null);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const handleInputChange = async (e) => {
         setCityInput(e.target.value);
@@ -54,14 +60,14 @@ const Navbar = ({ city, setCity, setWeatherData }) => {
     };
 
     return (
-        <VStack align="stretch" justifyContent="flex-start" px={10} pt={8}>
+        <VStack align="stretch" justifyContent="flex-start" px={5} py={10}>
             <Box
                 // bg={useColorModeValue("gray.100", "gray.900")}
                 zIndex="1"
             >
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
                     <Box>
-                        <Text fontSize="xl">Weather Now ⛅️</Text>
+                        <Text fontSize="xl">WeatherNow ⛅️</Text>
                     </Box>
                     <InputGroup width={"30%"}>
                         <InputLeftElement pointerEvents="none">
@@ -130,6 +136,17 @@ const Navbar = ({ city, setCity, setWeatherData }) => {
                                 borderRadius="md"
                                 shadow="md"
                                 rounded="xl"
+                                onClick={() => setIsDrawerOpen(true)}
+                            >
+                                <TbReport />
+                            </Button>
+
+                            <Button
+                                variant={"outline"}
+                                borderWidth={1}
+                                borderRadius="md"
+                                shadow="md"
+                                rounded="xl"
                             >
                                 <MdOutlineMyLocation />
                             </Button>
@@ -166,6 +183,21 @@ const Navbar = ({ city, setCity, setWeatherData }) => {
                     hour12: true,
                 })}
             </Text>
+            <Drawer
+                isOpen={isDrawerOpen}
+                placement="right"
+                onClose={() => setIsDrawerOpen(false)}
+                size={"lg"}
+            >
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader pb={0}>Alerts</DrawerHeader>
+                    <DrawerBody overflowY="auto">
+                        <Alerts alerts={alerts} />
+                    </DrawerBody>
+                </DrawerContent>
+            </Drawer>
         </VStack>
     );
 };

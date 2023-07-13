@@ -12,9 +12,7 @@ import {
 } from "@chakra-ui/react";
 import {
     WiThermometer,
-    WiStrongWind,
     WiHumidity,
-    WiBarometer,
     WiDaySunny,
     WiDayCloudy,
     WiRain,
@@ -35,18 +33,6 @@ const Current = ({ current }) => {
         vis_km,
     } = current;
 
-    const getWeatherIcon = (iconCode) => {
-        const iconMap = {
-            1000: <WiDaySunny size={48} />,
-            1003: <WiDayCloudy size={48} />,
-            1063: <WiRain size={48} />,
-            1135: <WiFog size={48} />,
-            1147: <WiFog size={48} />,
-        };
-
-        return iconMap[iconCode] || <WiCloudy size={48} />;
-    };
-
     return (
         <Box>
             <HStack
@@ -58,7 +44,7 @@ const Current = ({ current }) => {
                 rounded="xl"
             >
                 <VStack align="stretch" flex={1}>
-                    <Text fontSize="lg" mb={4}>
+                    <Text fontSize="md" mb={4} fontWeight="bold">
                         Current Weather
                     </Text>
                     <VStack
@@ -68,13 +54,14 @@ const Current = ({ current }) => {
                         pl={5}
                     >
                         <Box align="stretch" justifyContent="flex-start">
-                            {getWeatherIcon(condition.code)} {condition.text}{" "}
+                            <Image src={condition.icon} alt={condition.text} />{" "}
+                            {condition.text}{" "}
                         </Box>
                         <Text fontSize="3xl" fontWeight="bold">
-                            {temp_c}°C
+                            {temp_c} °C
                         </Text>
                         <Text fontSize="3xl" fontWeight="bold">
-                            {temp_f}°F
+                            {temp_f} °F
                         </Text>
                     </VStack>
                 </VStack>
@@ -84,7 +71,6 @@ const Current = ({ current }) => {
                             <Tr>
                                 <Td>
                                     <MdOutlineWindPower size={32} />
-                                    {/* <Text fontSize="3xl">💨</Text> */}
                                 </Td>
                                 <Td>Wind</Td>
                                 <Td>{wind_kph} km/h</Td>
@@ -92,7 +78,6 @@ const Current = ({ current }) => {
                             <Tr>
                                 <Td>
                                     <WiHumidity size={32} />
-                                    {/* <Text fontSize="3xl">🌦️</Text> */}
                                 </Td>
                                 <Td>Humidity</Td>
                                 <Td>{humidity}%</Td>
@@ -100,15 +85,13 @@ const Current = ({ current }) => {
                             <Tr>
                                 <Td>
                                     <WiThermometer size={32} />
-                                    {/* <Text fontSize="3xl">🌡️</Text> */}
                                 </Td>
                                 <Td>Feels Like</Td>
-                                <Td>{feelslike_c}°C</Td>
+                                <Td>{feelslike_c} °C</Td>
                             </Tr>
                             <Tr>
                                 <Td>
                                     <MdOutlineVisibility size={32} />
-                                    {/* <Text fontSize="3xl">👀</Text> */}
                                 </Td>
                                 <Td>Visibility</Td>
                                 <Td>{vis_km} km</Td>

@@ -1,38 +1,40 @@
 import React from "react";
-import { Box, Text, VStack, Image } from "@chakra-ui/react";
-import { BiError } from "react-icons/bi";
+import { Box, Text, VStack, HStack } from "@chakra-ui/react";
 
 const Alerts = ({ alerts }) => {
     return (
-        <Box mt={10}>
-            <Text fontSize="lg" fontWeight="bold" mb={4}>
-                Alerts
-            </Text>
-            <VStack
-                align="stretch"
-                p={4}
-                borderWidth={1}
-                borderRadius="md"
-                shadow="md"
-                rounded="xl"
-            >
-                {alerts.map((alert, index) => (
-                    <Box key={index} p={4} borderWidth={1} borderRadius="md">
-                        <Text fontSize="lg" fontWeight="bold" mb={2}>
-                            {alert.event}
-                        </Text>
-                        <Box mb={2}>
-                            <Image
-                                src={alert.image}
-                                alt={alert.event}
-                                height={150}
-                            />
-                        </Box>
-                        <Text>{alert.description}</Text>
-                    </Box>
+        <Box>
+            <VStack align="stretch">
+                {alerts.alert?.map((alert, index) => (
+                    <HStack
+                        p={2}
+                        justifyContent={"space-between"}
+                        key={index}
+                        borderWidth={1}
+                        borderRadius="md"
+                        shadow="md"
+                        rounded="xl"
+                    >
+                        <VStack align="stretch" flex={1}>
+                            <Text fontSize="md">{alert.event}</Text>
+                            <Text fontSize="sm" color="gray.500">
+                                {alert.headline}
+                            </Text>
+                            <Text fontSize="xs" color="gray.500">
+                                Severity: {alert.severity}
+                            </Text>
+                            <Text fontSize="xs" color="gray.500">
+                                Effective: {alert.effective}
+                            </Text>
+                            <Text fontSize="xs" color="gray.500">
+                                Expires: {alert.expires}
+                            </Text>
+                            <Text fontSize="xs">{alert.desc}</Text>
+                        </VStack>
+                    </HStack>
                 ))}
-                {alerts.length === 0 && (
-                    <Box p={4}>
+                {(!alerts.alert || alerts.alert.length === 0) && (
+                    <Box py={4}>
                         <Text fontSize="md">No alerts found.</Text>
                     </Box>
                 )}

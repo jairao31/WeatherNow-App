@@ -24,10 +24,10 @@ const Location = ({ location }) => {
                     rounded="xl"
                 >
                     <CardHeader p={3}>
-                        <VStack align="start" spacing={2}>
+                        <VStack align="start" spacing={1}>
                             <HStack align="center">
                                 <MdPlace size={20} />
-                                <Text fontSize="2xl">{name}</Text>
+                                <Text fontSize="4xl">{name}</Text>
                             </HStack>
                             <Text fontSize="sm">{region}</Text>
                             <Text fontSize="sm">{country}</Text>
@@ -35,7 +35,15 @@ const Location = ({ location }) => {
                             <HStack align="center">
                                 <MdAccessTime size={20} />
                                 <Text fontSize="sm">
-                                    Local Time: {localtime}
+                                    Local Time:{" "}
+                                    {new Date(localtime).toLocaleTimeString(
+                                        "en-US",
+                                        {
+                                            hour: "numeric",
+                                            minute: "numeric",
+                                            hour12: true,
+                                        }
+                                    )}
                                 </Text>
                             </HStack>
                             <Text fontSize="sm">
