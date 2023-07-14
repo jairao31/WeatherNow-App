@@ -17,17 +17,41 @@ const Alerts = ({ alerts }) => {
                     >
                         <VStack align="stretch" flex={1}>
                             <Text fontSize="md">{alert.event}</Text>
-                            <Text fontSize="sm" color="gray.500">
+                            <Text fontSize="xs" color="gray.500">
                                 {alert.headline}
                             </Text>
                             <Text fontSize="xs" color="gray.500">
                                 Severity: {alert.severity}
                             </Text>
                             <Text fontSize="xs" color="gray.500">
-                                Effective: {alert.effective}
+                                Effective:{" "}
+                                {new Date(alert.effective).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                        weekday: "long",
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                        hour: "numeric",
+                                        minute: "numeric",
+                                        hour12: true,
+                                    }
+                                )}
                             </Text>
                             <Text fontSize="xs" color="gray.500">
-                                Expires: {alert.expires}
+                                Expires:{" "}
+                                {new Date(alert.expires).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                        weekday: "long",
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                        hour: "numeric",
+                                        minute: "numeric",
+                                        hour12: true,
+                                    }
+                                )}
                             </Text>
                             <Text fontSize="xs">{alert.desc}</Text>
                         </VStack>

@@ -45,7 +45,7 @@ Object.freeze(requestTypes);
 
 export const fetchCityList = async (query) => {
     try {
-        const endpoint = `cities/${query}`;
+        const endpoint = `/cities/${query}`;
         const response = await GET(endpoint);
         return response;
     } catch (error) {
@@ -55,10 +55,22 @@ export const fetchCityList = async (query) => {
 
 export const fetchWeatherByCity = async (city) => {
     try {
-        const endpoint = `weather/${city}`;
+        const endpoint = `/weather/${city}`;
         const response = await GET(endpoint);
         return response;
     } catch (error) {
         throw new Error(error.response.data.errorMsg);
+    }
+};
+
+export const fetchCurrentLocationCity = async () => {
+    try {
+        const response = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=XXXXXXXXXXXX&longitude=XXXXXXXXXXXX&localityLanguage=en`
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error("Error getting current location: " + error.message);
     }
 };

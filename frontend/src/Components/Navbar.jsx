@@ -8,8 +8,6 @@ import {
     InputGroup,
     Input,
     InputLeftElement,
-    InputRightElement,
-    CloseButton,
     Text,
     VStack,
     Drawer,
@@ -18,14 +16,18 @@ import {
     DrawerCloseButton,
     DrawerHeader,
     DrawerBody,
+    useBreakpointValue,
+    List,
+    ListItem,
+    ListIcon,
 } from "@chakra-ui/react";
 import { MoonIcon, SearchIcon, SunIcon } from "@chakra-ui/icons";
 import { MdLocationOn, MdOutlineMyLocation } from "react-icons/md";
 import { fetchCityList } from "../api";
-import { TbReport } from "react-icons/tb";
+import { AiFillAlert } from "react-icons/ai";
 import Alerts from "./Alerts";
 
-const Navbar = ({ city, setCity, setWeatherData, alerts }) => {
+const Navbar = ({ setCity, alerts, cityName }) => {
     const { colorMode, toggleColorMode } = useColorMode();
     const [cityList, setCityList] = useState([]);
     const [cityInput, setCityInput] = useState("");
@@ -54,22 +56,53 @@ const Navbar = ({ city, setCity, setWeatherData, alerts }) => {
         setCityInput(city.name);
     };
 
-    const handleClearInput = () => {
-        setCityInput("");
-        setCityList([]);
-    };
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
     return (
-        <VStack align="stretch" justifyContent="flex-start" px={5} py={10}>
-            <Box
-                // bg={useColorModeValue("gray.100", "gray.900")}
-                zIndex="1"
-            >
-                <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <VStack align="stretch" justifyContent="flex-start" pb={3}>
+            <Box zIndex="1">
+                <Flex
+                    alignItems={isMobile ? "flex-start" : "center"}
+                    justifyContent={"space-between"}
+                    flexDir={isMobile ? "column" : "row"}
+                >
                     <Box>
-                        <Text fontSize="xl">WeatherNow ⛅️</Text>
+                        <Text
+                            fontSize={isMobile ? "lg" : "4xl"}
+                            pb={isMobile ? "1" : "0"}
+                            bgGradient={
+                                colorMode === "light"
+                                    ? "linear(to-l, #36D1DC, #5B86E5)"
+                                    : "linear(to-l, #7928CA, #FF0080)"
+                            }
+                            bgClip="text"
+                            fontWeight="extrabold"
+                        >
+                            WeatherNow🌦️
+                        </Text>
+                        {!isMobile && (
+                            <Text fontSize="sm">
+                                {new Date().toLocaleDateString("en-US", {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                })}{" "}
+                                |{" "}
+                                {new Date().toLocaleTimeString("en-US", {
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                    hour12: true,
+                                })}
+                            </Text>
+                        )}
                     </Box>
-                    <InputGroup width={"30%"}>
+                    <InputGroup
+                        width={isMobile ? "100%" : "50%"}
+                        alignSelf={isMobile ? "stretch" : "center"}
+                        size={isMobile ? "xs" : "md"}
+                        zIndex={"999"}
+                    >
                         <InputLeftElement pointerEvents="none">
                             <SearchIcon color="gray.500" />
                         </InputLeftElement>
@@ -82,14 +115,6 @@ const Navbar = ({ city, setCity, setWeatherData, alerts }) => {
                             onChange={handleInputChange}
                             value={cityInput}
                         />
-                        {cityInput !== "" && (
-                            <InputRightElement>
-                                <CloseButton
-                                    size="sm"
-                                    onClick={handleClearInput}
-                                />
-                            </InputRightElement>
-                        )}
                         {cityList.length > 0 && (
                             <Box
                                 position="absolute"
@@ -98,96 +123,99 @@ const Navbar = ({ city, setCity, setWeatherData, alerts }) => {
                                 width="100%"
                                 mt={1}
                                 p={2}
-                                borderWidth={1}
-                                borderRadius="md"
-                                boxShadow="md"
-                                bg="white"
+                                borderBottomRadius="md"
+                                bg={
+                                    colorMode === "light"
+                                        ? "whiteAlpha.900"
+                                        : "#1A202C"
+                                }
                             >
-                                <Stack spacing={1}>
-                                    {cityList.map((city) => (
-                                        <Button
-                                            size={"xs"}
-                                            key={city.id}
-                                            leftIcon={
-                                                <MdLocationOn color="teal" />
-                                            }
-                                            variant="ghost"
-                                            textAlign="left"
-                                            justifyContent="flex-start"
-                                            pl={3}
+                                <List spacing={1}>
+                                    {cityList.map((city, idx) => (
+                                        <ListItem
+                                            key={idx}
+                                            fontSize={"xs"}
+                                            _hover={{
+                                                color:
+                                                    colorMode === "light"
+                                                        ? "telegram.500"
+                                                        : "purple.500",
+                                                cursor: "pointer",
+                                            }}
                                             onClick={() =>
                                                 handleCityClick(city)
                                             }
                                         >
-                                            {city.name}, {city.region},{" "}
-                                            {city.country}
-                                        </Button>
+                                            <ListIcon
+                                                as={MdLocationOn}
+                                                color={
+                                                    colorMode === "light"
+                                                        ? "telegram.500"
+                                                        : "purple.500"
+                                                }
+                                            />
+                                            {city.name}, {city.country}
+                                        </ListItem>
                                     ))}
-                                </Stack>
+                                </List>
                             </Box>
                         )}
                     </InputGroup>
+                </Flex>
+                <Flex
+                    w={"100%"}
+                    justifyContent={"flex-end"}
+                    alignItems={"center"}
+                    pt={isMobile ? "2" : "0"}
+                    zIndex={"0"}
+                >
+                    <Stack direction={"row"} spacing={2}>
+                        <Button
+                            size={isMobile ? "xs" : "md"}
+                            variant="outline"
+                            borderWidth={1}
+                            borderRadius="md"
+                            shadow="md"
+                            rounded="xl"
+                            onClick={() => setIsDrawerOpen(true)}
+                            bg={colorMode === "light" ? "white" : "#1A202C"}
+                        >
+                            <AiFillAlert />
+                        </Button>
 
-                    <Flex alignItems={"center"}>
-                        <Stack direction={"row"} spacing={2}>
-                            <Button
-                                variant={"outline"}
-                                borderWidth={1}
-                                borderRadius="md"
-                                shadow="md"
-                                rounded="xl"
-                                onClick={() => setIsDrawerOpen(true)}
-                            >
-                                <TbReport />
-                            </Button>
+                        <Button
+                            size={isMobile ? "xs" : "md"}
+                            variant="outline"
+                            borderWidth={1}
+                            borderRadius="md"
+                            shadow="md"
+                            rounded="xl"
+                            onClick={cityName}
+                            bg={colorMode === "light" ? "white" : "#1A202C"}
+                        >
+                            <MdOutlineMyLocation />
+                        </Button>
 
-                            <Button
-                                variant={"outline"}
-                                borderWidth={1}
-                                borderRadius="md"
-                                shadow="md"
-                                rounded="xl"
-                            >
-                                <MdOutlineMyLocation />
-                            </Button>
-
-                            <Button
-                                onClick={toggleColorMode}
-                                variant={"outline"}
-                                borderWidth={1}
-                                borderRadius="md"
-                                shadow="md"
-                                rounded="xl"
-                            >
-                                {colorMode === "light" ? (
-                                    <MoonIcon />
-                                ) : (
-                                    <SunIcon />
-                                )}
-                            </Button>
-                        </Stack>
-                    </Flex>
+                        <Button
+                            size={isMobile ? "xs" : "md"}
+                            onClick={toggleColorMode}
+                            variant="outline"
+                            borderWidth={1}
+                            borderRadius="md"
+                            shadow="md"
+                            rounded="xl"
+                            bg={colorMode === "light" ? "white" : "#1A202C"}
+                        >
+                            {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                        </Button>
+                    </Stack>
                 </Flex>
             </Box>
-            <Text fontSize="sm">
-                {new Date().toLocaleDateString("en-US", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                })}{" "}
-                |{" "}
-                {new Date().toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                })}
-            </Text>
             <Drawer
                 isOpen={isDrawerOpen}
                 placement="right"
                 onClose={() => setIsDrawerOpen(false)}
-                size={"lg"}
+                size={isMobile ? "xs" : "md"}
             >
                 <DrawerOverlay />
                 <DrawerContent>

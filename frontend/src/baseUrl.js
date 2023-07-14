@@ -1,3 +1,5 @@
 export const getBaseUrl = () => {
-    return "http://localhost:3001/";
+    return `${process.env.REACT_APP_SERVER_IP}`;
 };
+
+console.log("process.env.REACT_APP_SERVER_IP", process.env.REACT_APP_SERVER_IP);

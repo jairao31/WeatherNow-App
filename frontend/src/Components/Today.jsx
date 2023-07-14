@@ -1,23 +1,35 @@
 import React from "react";
-import { Box, Text, VStack, Flex, Image, HStack } from "@chakra-ui/react";
 import {
-    WiTime11,
-    WiThermometer,
-    WiStrongWind,
-    WiHumidity,
-} from "react-icons/wi";
-import { MdAccessTime } from "react-icons/md";
+    Box,
+    Text,
+    VStack,
+    Flex,
+    Image,
+    HStack,
+    useBreakpointValue,
+} from "@chakra-ui/react";
+import { WiThermometer, WiStrongWind } from "react-icons/wi";
+import { RiWaterPercentLine } from "react-icons/ri";
 
 const Today = ({ hour }) => {
+    const isMobile = useBreakpointValue({ base: true, md: false });
     return (
-        <Box borderWidth={1} borderRadius="md" shadow="md" rounded="xl" p={3}>
+        <Box
+            borderWidth={1}
+            borderRadius="md"
+            shadow="md"
+            rounded="xl"
+            width={"100%"}
+        >
             <Text fontSize="md" fontWeight="bold" p={3}>
                 Hourly Forecast
             </Text>
             <VStack
                 align="stretch"
-                maxHeight="312px"
-                overflowY="scroll"
+                px={1}
+                pb={2}
+                maxHeight="300px"
+                overflowY={{ base: "scroll" }}
                 css={{ "&::-webkit-scrollbar": { display: "none" } }}
             >
                 {hour.map((data, index) => (
@@ -31,11 +43,11 @@ const Today = ({ hour }) => {
                         rounded="xl"
                         p={3}
                         mx={2}
+                        mb={2}
                     >
                         <Text
                             alignItems={"end"}
-                            fontSize={"xs"}
-                            fontWeight="bold"
+                            fontSize={isMobile ? "xs" : "md"}
                         >
                             {data.condition.text}
                         </Text>
@@ -43,40 +55,45 @@ const Today = ({ hour }) => {
                             <HStack
                                 width={"100%"}
                                 justifyContent={"space-between"}
-                                px={5}
                             >
-                                <Flex alignItems="center">
-                                    <MdAccessTime />
-                                    <Text ml={2}>
-                                        {new Date(data.time).toLocaleTimeString(
-                                            "en-US",
-                                            {
-                                                hour: "numeric",
-                                                minute: "numeric",
-                                                hour12: true,
-                                            }
-                                        )}
+                                <Text ml={2} fontSize={"xs"}>
+                                    {new Date(data.time).toLocaleTimeString(
+                                        "en-US",
+                                        {
+                                            hour: "numeric",
+                                            minute: "numeric",
+                                            hour12: true,
+                                        }
+                                    )}
+                                </Text>
+                                <Flex alignItems="center" p={2}>
+                                    <WiThermometer size={isMobile ? 18 : 32} />
+                                    <Text ml={2} fontSize={"xs"}>
+                                        {data.temp_f} °F
+                                    </Text>
+                                </Flex>
+                                <Flex alignItems="center" p={2}>
+                                    <WiStrongWind size={isMobile ? 18 : 32} />
+                                    <Text ml={2} fontSize={"xs"}>
+                                        {data.wind_kph} km/h
+                                    </Text>
+                                </Flex>
+                                <Flex alignItems="center" p={2}>
+                                    <RiWaterPercentLine
+                                        size={isMobile ? 15 : 22}
+                                    />
+                                    <Text ml={2} fontSize={"xs"}>
+                                        {data.humidity} %
                                     </Text>
                                 </Flex>
                                 <Flex alignItems="center">
-                                    <WiThermometer />
-                                    <Text ml={2}>{data.temp_c}°C</Text>
-                                </Flex>
-                                <Flex alignItems="center">
-                                    <WiStrongWind />
-                                    <Text ml={2}>{data.wind_kph} km/h</Text>
-                                </Flex>
-                                <Flex alignItems="center">
-                                    <WiHumidity />
-                                    <Text ml={2}>{data.humidity}%</Text>
+                                    <Image
+                                        width={"100%"}
+                                        src={data.condition.icon}
+                                        alt={data.condition.text}
+                                    />
                                 </Flex>
                             </HStack>
-                            <Box align="stretch" justifyContent={"end"}>
-                                <Image
-                                    src={data.condition.icon}
-                                    alt={data.condition.text}
-                                />
-                            </Box>
                         </HStack>
                     </Box>
                 ))}

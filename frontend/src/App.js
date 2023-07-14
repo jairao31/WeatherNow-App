@@ -1,5 +1,5 @@
 import React from "react";
-import { ChakraProvider, Container, Text } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import WeatherPage from "./Pages/WeatherPage";
 
 function App() {

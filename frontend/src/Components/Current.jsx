@@ -4,97 +4,105 @@ import {
     Text,
     HStack,
     VStack,
-    Image,
     Table,
     Tbody,
     Tr,
     Td,
+    useBreakpointValue,
+    Image,
 } from "@chakra-ui/react";
-import {
-    WiThermometer,
-    WiHumidity,
-    WiDaySunny,
-    WiDayCloudy,
-    WiRain,
-    WiFog,
-    WiCloudy,
-} from "react-icons/wi";
+import { WiSunrise, WiSunset, WiStrongWind } from "react-icons/wi";
+import { PiSmileyXEyesLight } from "react-icons/pi";
+import { LuPersonStanding } from "react-icons/lu";
+import { RiWaterPercentLine } from "react-icons/ri";
 
-import { MdOutlineWindPower, MdOutlineVisibility } from "react-icons/md";
+const Current = ({ current, astro }) => {
+    const { wind_kph, humidity, feelslike_c, vis_km } = current;
+    const { text, icon } = current.condition;
+    const { sunrise, sunset } = astro;
 
-const Current = ({ current }) => {
-    const {
-        temp_c,
-        temp_f,
-        condition,
-        wind_kph,
-        humidity,
-        feelslike_c,
-        vis_km,
-    } = current;
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
     return (
-        <Box>
-            <HStack
-                align="stretch"
-                p={3}
-                borderWidth={1}
-                borderRadius="md"
-                shadow="md"
-                rounded="xl"
-            >
-                <VStack align="stretch" flex={1}>
-                    <Text fontSize="md" mb={4} fontWeight="bold">
-                        Current Weather
-                    </Text>
-                    <VStack
-                        gap={5}
-                        align="stretch"
-                        justifyContent="flex-start"
+        <Box
+            borderWidth={1}
+            borderRadius="md"
+            shadow="md"
+            rounded="xl"
+            width={"100%"}
+            pb={2}
+            minHeight={isMobile ? "auto" : "350px"}
+        >
+            <Text fontSize="md" fontWeight="bold" p={3}>
+                Current Weather
+            </Text>
+            <HStack>
+                <VStack>
+                    <Box
                         pl={5}
+                        display="flex"
+                        alignItems="flex-start"
+                        flexDirection="column"
+                        textAlign="left"
                     >
-                        <Box align="stretch" justifyContent="flex-start">
-                            <Image src={condition.icon} alt={condition.text} />{" "}
-                            {condition.text}{" "}
-                        </Box>
-                        <Text fontSize="3xl" fontWeight="bold">
-                            {temp_c} °C
-                        </Text>
-                        <Text fontSize="3xl" fontWeight="bold">
-                            {temp_f} °F
-                        </Text>
-                    </VStack>
+                        <Image
+                            src={icon}
+                            alt={text}
+                            width={isMobile ? 50 : 100}
+                        />
+                        <Text fontSize={isMobile ? "sm" : "2xl"}>{text}</Text>
+                    </Box>
                 </VStack>
                 <VStack align="stretch" flex={1}>
-                    <Table variant="unstyled" gap={0}>
+                    <Table variant="unstyled" size={"sm"}>
                         <Tbody>
                             <Tr>
                                 <Td>
-                                    <MdOutlineWindPower size={32} />
+                                    <WiStrongWind size={isMobile ? 24 : 32} />
                                 </Td>
                                 <Td>Wind</Td>
                                 <Td>{wind_kph} km/h</Td>
                             </Tr>
                             <Tr>
                                 <Td>
-                                    <WiHumidity size={32} />
+                                    <RiWaterPercentLine
+                                        size={isMobile ? 24 : 32}
+                                    />
                                 </Td>
                                 <Td>Humidity</Td>
                                 <Td>{humidity}%</Td>
                             </Tr>
                             <Tr>
                                 <Td>
-                                    <WiThermometer size={32} />
+                                    <LuPersonStanding
+                                        size={isMobile ? 24 : 32}
+                                    />
                                 </Td>
                                 <Td>Feels Like</Td>
                                 <Td>{feelslike_c} °C</Td>
                             </Tr>
                             <Tr>
                                 <Td>
-                                    <MdOutlineVisibility size={32} />
+                                    <PiSmileyXEyesLight
+                                        size={isMobile ? 24 : 32}
+                                    />
                                 </Td>
                                 <Td>Visibility</Td>
                                 <Td>{vis_km} km</Td>
+                            </Tr>
+                            <Tr>
+                                <Td>
+                                    <WiSunrise size={isMobile ? 24 : 32} />
+                                </Td>
+                                <Td>Sunrise</Td>
+                                <Td>{sunrise}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td>
+                                    <WiSunset size={isMobile ? 24 : 32} />
+                                </Td>
+                                <Td>Sunset</Td>
+                                <Td>{sunset}</Td>
                             </Tr>
                         </Tbody>
                     </Table>
