@@ -100,7 +100,7 @@ const Navbar = ({ setCity, alerts, cityName }) => {
                     <InputGroup
                         width={isMobile ? "100%" : "50%"}
                         alignSelf={isMobile ? "stretch" : "center"}
-                        size={isMobile ? "xs" : "md"}
+                        size={isMobile ? "sm" : "md"}
                         zIndex={"999"}
                     >
                         <InputLeftElement pointerEvents="none">
@@ -134,7 +134,7 @@ const Navbar = ({ setCity, alerts, cityName }) => {
                                     {cityList.map((city, idx) => (
                                         <ListItem
                                             key={idx}
-                                            fontSize={"xs"}
+                                            fontSize={"sm"}
                                             _hover={{
                                                 color:
                                                     colorMode === "light"
@@ -154,7 +154,8 @@ const Navbar = ({ setCity, alerts, cityName }) => {
                                                         : "purple.500"
                                                 }
                                             />
-                                            {city.name}, {city.country}
+                                            {city.name}, {city.region},{" "}
+                                            {city.country}
                                         </ListItem>
                                     ))}
                                 </List>
@@ -171,7 +172,7 @@ const Navbar = ({ setCity, alerts, cityName }) => {
                 >
                     <Stack direction={"row"} spacing={2}>
                         <Button
-                            size={isMobile ? "xs" : "md"}
+                            size={isMobile ? "sm" : "md"}
                             variant="outline"
                             borderWidth={1}
                             borderRadius="md"
@@ -184,7 +185,7 @@ const Navbar = ({ setCity, alerts, cityName }) => {
                         </Button>
 
                         <Button
-                            size={isMobile ? "xs" : "md"}
+                            size={isMobile ? "sm" : "md"}
                             variant="outline"
                             borderWidth={1}
                             borderRadius="md"
@@ -197,7 +198,7 @@ const Navbar = ({ setCity, alerts, cityName }) => {
                         </Button>
 
                         <Button
-                            size={isMobile ? "xs" : "md"}
+                            size={isMobile ? "sm" : "md"}
                             onClick={toggleColorMode}
                             variant="outline"
                             borderWidth={1}

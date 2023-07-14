@@ -36,13 +36,12 @@ const Location = ({ location, current }) => {
         <Box flex={1}>
             <VStack align="stretch" spacing={2}>
                 <Box
-                    borderWidth={1}
                     borderRadius="md"
                     shadow="md"
                     rounded="xl"
                     p={isMobile ? 2 : 4}
                     variant="outline"
-                    backgroundImage={`linear-gradient(to right, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 20%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.5) 80%, rgba(255, 255, 255, 0.8) 100%), url(${timeOfDay})`}
+                    backgroundImage={`linear-gradient(to right, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.3) 20%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0.1) 100%), url(${timeOfDay})`}
                     backgroundSize="cover"
                     backgroundPosition="center"
                     backgroundRepeat="no-repeat"
@@ -66,7 +65,11 @@ const Location = ({ location, current }) => {
                                 </Text>
                             </HStack>
                             {!isMobile && (
-                                <Text fontSize="md" color={"black"}>
+                                <Text
+                                    fontSize="md"
+                                    color={"black"}
+                                    fontWeight={"bold"}
+                                >
                                     {region}, {country}
                                 </Text>
                             )}
@@ -76,7 +79,11 @@ const Location = ({ location, current }) => {
                                     size={isMobile ? 16 : 20}
                                     color={"black"}
                                 />
-                                <Text fontSize="md" color={"black"}>
+                                <Text
+                                    fontSize="md"
+                                    color={"black"}
+                                    fontWeight={"bold"}
+                                >
                                     {" "}
                                     {new Date(localtime).toLocaleTimeString(
                                         "en-US",
@@ -89,7 +96,11 @@ const Location = ({ location, current }) => {
                                 </Text>
                             </HStack>
                             {!isMobile && (
-                                <Text fontSize="md" color={"black"}>
+                                <Text
+                                    fontSize="md"
+                                    color={"black"}
+                                    fontWeight={"bold"}
+                                >
                                     Latitude λ: {lat} | Longitude φ: {lon}
                                 </Text>
                             )}
@@ -97,14 +108,14 @@ const Location = ({ location, current }) => {
                         <VStack alignItems="flex-end">
                             <Text
                                 fontSize={isMobile ? "3xl" : "5xl"}
-                                color={"#34495E"}
+                                color={"black"}
                                 fontWeight={"bold"}
                             >
                                 {temp_c} °C
                             </Text>
                             <Text
                                 fontSize={isMobile ? "3xl" : "5xl"}
-                                color={"#34495E"}
+                                color={"black"}
                                 fontWeight={"bold"}
                             >
                                 {temp_f} °F

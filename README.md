@@ -68,7 +68,3 @@ This is a web application that provides weather information for cities, includin
 ## Credits
 
 -   This project utilizes the [WeatherAPI](https://www.weatherapi.com/) for weather data.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

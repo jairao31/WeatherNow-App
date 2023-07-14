@@ -48,7 +48,7 @@ const Current = ({ current, astro }) => {
                         <Image
                             src={icon}
                             alt={text}
-                            width={isMobile ? 50 : 100}
+                            width={isMobile ? 30 : 50}
                         />
                         <Text fontSize={isMobile ? "sm" : "2xl"}>{text}</Text>
                     </Box>
