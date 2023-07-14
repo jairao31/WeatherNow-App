@@ -63,7 +63,7 @@ const WeatherPage = () => {
                     cityName={cityName}
                 />
                 {loading ? (
-                    <VStack pb={isMobile ? 30 : 1}>
+                    <VStack pb={isMobile ? 5 : 1}>
                         <Spinner
                             thickness="6px"
                             speed="0.65s"
@@ -101,6 +101,17 @@ const WeatherPage = () => {
                         <Forecast forecast={forecast} />
                     </VStack>
                 )}
+            </Container>
+            <Container
+                maxW="6xl"
+                p={4}
+                flex={1}
+                align="center"
+                fontSize="sm"
+                fontWeight="bold"
+                color="gray.500"
+            >
+                WeatherNow - Crafted with ⚡️ by Jaiganesh
             </Container>
         </VStack>
     );
